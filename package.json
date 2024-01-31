@@ -1,0 +1,36 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "This is Namaste React 2024 ",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kushal0211/React-in-2024.git"
+  },
+  "keywords": [
+    "react",
+    "Kushal",
+    "Pandita"
+  ],
+  "author": "Kushal Pandita",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.11.0",
+    "postcss": "^8.4.33",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.4.1"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.3"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
+}

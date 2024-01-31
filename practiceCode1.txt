@@ -1,0 +1,222 @@
+// // const heading = 
+
+// // React.createElement("h1", 
+// // {id : "heading"}, 
+// // "Hello Bhai, mai React hu");
+
+
+// // const root = ReactDOM.createRoot(document.getElementById("root"));
+// // root.render(heading);
+
+// // const div = React.createElement("div", {}, "I am the Div");
+// // const rootDiv = ReactDOM.createRoot(document.getElementById("div1"));
+// // rootDiv.render(div);
+
+
+// // const heading = React.createElement("h1", {id:"heading"},"hello duniya ");
+
+// // console.log("-------------------");
+// // console.log(heading)
+
+
+// // console.log("-------------------");
+// // const root = ReactDOM.createRoot(document.getElementById("root"));
+// // console.log(root);
+
+
+// // root.render(heading);
+
+// // Square brackets are used here to create siblings like h1 and h2 here 
+
+
+
+
+// const parent = React.createElement("div", { id: "parent" },
+//     React.createElement("div", { id: "child" },
+//         [
+//             React.createElement("h1", { id: "heading" }, "I am h1 tag"),
+//             React.createElement("h2", { id: "heading" }, "I am h2 tag")])
+// )
+
+// console.log(parent);
+
+// const jsxHeading = <h1 className="head">I am using JSX Here....</h1>
+
+// const para = (
+//     <div>
+//         <h1> Hello.. here i want to see how can i use multiple lines of jsx</h1>
+//         <p>Now i using multiple lines here..</p>
+//         <p>Simply create a div and inside that you can use multiple tags</p>
+//     </div>
+
+
+// );
+
+
+
+// const HeadingComponent = () => (
+//     <div>
+//         <h1>Hello... Now here i am Functional Component</h1>
+//         <p>Yes, yes... </p>
+//         <p>This is all about Functional Components</p>
+//         <h1>.............Let's see the syntax of Functional Component...................</h1>
+//         <p>
+//             const = HeadingComponent = () = arrow (
+//             inside div we can write the UI here using jsx
+//             )
+//         </p>
+
+//         <p>So, basically Functional component is normal js function which returns some piece of jsx</p>
+//     </div>
+// );
+
+
+// const HeadingComponent2 = () => {
+//     return (
+//         <div>
+//             <h1>Hello... Now here i am Functional Component</h1>
+//         </div>
+//     );
+// }
+
+
+// const Title = () => (
+//     <div>
+//         <h1>I am the title component</h1>
+//     </div>
+// );
+
+// const Section = () => (
+//     <div>
+//         <h2>I am the section Component</h2>
+//     </div>
+// );
+
+// const elem = (
+//     <h1>I am just a React Element</h1>
+// );
+
+// const elem2 = (
+//     <div>
+//         <p>------------------------------------------------------------------</p>
+//         {elem}
+//         <p>I am the 2nd React Element</p>
+//         <p>------------------------------------------------------------------</p>
+//     </div>
+// );
+
+// const num = 1;
+
+// const DemoComponent = () => {
+//     return (
+//         <div>
+//             <h3>Hello i am demo component 😁</h3>
+//         </div>
+//     );
+// };
+
+// const MainComponent = () => (
+//     <div>
+//         <Title/>
+//         {elem2}
+//         <Section />
+//         <DemoComponent/> {num}
+//         <DemoComponent></DemoComponent> {num+1}
+//         {DemoComponent()}{num+2}
+//     </div>
+// )
+
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+
+
+// // console.log(jsxHeading);
+
+// // root.render(<HeadingComponent/>);
+
+
+// root.render(<MainComponent />)
+
+// Below code is for search functionality- needs to be checked
+
+import RestuarantCard from "./RestuarantCard";
+import resList from "../utils/mockData";
+import resList from "../utils/mockData";
+import { useEffect, useState } from "react";
+import Shimmer from "./Shimmer";
+
+const Body = () => {
+
+    console.log("Body rendered")
+
+    const [listOfRestuarant, setListOfRestuarant] = useState([]);
+    const [filteredRestuarant, setFilteredRestuarant] = useState([]);
+    const [searchText, setSearchText] = useState("");
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    const fetchData = async () => {
+        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6304203&lng=77.21772159999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+
+        const json = await data.json();
+
+        console.log(json);
+
+        setListOfRestuarant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setFilteredRestuarant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    };
+
+    // Here below - Conditinal Rendering using Ternerary operator
+
+    return listOfRestuarant.length === 0 ? <Shimmer /> : (
+        <div className="body">
+            
+            <div className="search">Search</div>
+
+
+            <div className="filter-btn">
+
+                <div className="search">
+
+                    <input type="text" className="search-box" value={searchText} 
+                    onChange={(e)=>{
+                        setSearchText(e.target.value);
+                    }}
+                    />
+
+                    <button onClick={() => {    
+                        const filteredRestuarants = listOfRestuarant.filter((res) => 
+                            res.info.name.toLowerCase().includes(searchText.toLowerCase())
+                        );
+
+                        setFilteredRestuarant(filteredRestuarants);
+                        
+                    }}>
+                        Search
+                    </button>
+
+                </div>
+
+
+                <button onClick={() => {
+                    const filteredList = listOfRestuarant.filter((res) =>
+                        res.info.avgRating > 4.4
+                    );
+                    setListOfRestuarant(filteredList);
+                }}>
+                    Top Rated Restuarants
+                </button>
+            </div>
+
+            <div className="res-container">
+                {
+                    filteredRestuarant.map((restuarant) =>
+                        <RestuarantCard key={restuarant.info.id} resData={restuarant} />)
+                }
+            </div>
+        </div>
+    );
+}
+
+export default Body;
