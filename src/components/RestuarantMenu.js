@@ -1,6 +1,7 @@
 import useRestuarantMenu from "../utils/useRestuarantMenu";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
+import RestuarantCategory from "./RestuarantCategory";
 
 const RestuarantMenu = () => {
 
@@ -20,10 +21,22 @@ const RestuarantMenu = () => {
 
     const { itemCards } = resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[4]?.card?.card;
 
+    console.log(resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards);
+
+    const categories = resInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+        (category) => 
+            category?.card?.card?.["@type"] === 
+            "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
+    console.log("cate", categories);
+
     return (
         <div className="res-menu">
             <h1 className="res-name"> {name} - {locality}, {city}</h1>
             <p className="res-cuisines"> {cuisines.join(", ")} - <span className="res-price">{costForTwoMessage} </span> </p>
+
+            
 
             <p className="menuAvgRating">{avgRating}⭐
                 <span className="menuDeliveryTime"> 🛵 {sla.deliveryTime} minutes</span>
@@ -37,9 +50,14 @@ const RestuarantMenu = () => {
 
                 <p className="menuDiscounts">{aggregatedDiscountInfo.descriptionList[1].meta}</p>
 
+                {categories.map((category) => (
+                <RestuarantCategory/>
+            ))}
+
             </div>
 
-
+            
+            
             <h2 className="menu-title">Menu Items you may Like</h2>
             <ul>
                 {

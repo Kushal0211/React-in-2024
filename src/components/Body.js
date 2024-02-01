@@ -1,12 +1,11 @@
-import RestuarantCard from "./RestuarantCard";
-import resList from "../utils/mockData";
-import resList from "../utils/mockData";
+import RestuarantCard, {withLabelRestuarants} from "./RestuarantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { SWIGGY_API_URL } from "../utils/constants";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserOffline from "./UserOffline";
+
 
 const Body = () => {
 
@@ -16,9 +15,12 @@ const Body = () => {
     const [filteredRestuarant, setFilteredRestuarant] = useState([]);
     const [searchText, setSearchText] = useState("");
     const isOnline = useOnlineStatus();
+    const PromotedRestuarant = withLabelRestuarants(RestuarantCard);
 
     useEffect(() => {
         fetchData();
+        console.log("list updated");
+        console.log("list-", listOfRestuarant);
     }, [])
 
     const fetchData = async () => {
@@ -30,6 +32,7 @@ const Body = () => {
 
         setListOfRestuarant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
         setFilteredRestuarant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        
     };
 
     // Here below - Conditinal Rendering using Ternerary operator
@@ -88,7 +91,12 @@ const Body = () => {
                     filteredRestuarant.map((restuarant) => (
                         <Link className="link-tag" key={restuarant?.info.id}
                             to={"/restuarants/" + restuarant?.info.id}>
-                            <RestuarantCard resData={restuarant} />
+
+                                {restuarant.info.isOpen ? (
+                                <PromotedRestuarant resData={restuarant}/>
+                                ) : (
+                                    <RestuarantCard resData={restuarant}/>
+                                )}                         
                         </Link>
 
                     ))}

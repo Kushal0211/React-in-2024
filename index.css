@@ -330,3 +330,12 @@ font-size: 2rem;
 .no-internet-content p {
 font-size: 1.2rem;
 }
+
+.menuLabel{
+  background-color: #ff0051;
+  color: white;
+  position: absolute;
+  margin: 5px 5px;
+  padding: 3px;
+  border-radius: 0px 4px 4px 0px;
+}
