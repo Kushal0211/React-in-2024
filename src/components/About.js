@@ -1,3 +1,4 @@
+import UserContext from "../utils/UserContext";
 import User from "./User";
 import UserClass from "./UserClass";
 import React from "react";
@@ -35,6 +36,15 @@ class About extends React.Component {
                         <UserClass name={"Kushal Pandita"} />
                     </div>
 
+                    {/* Need to remove the below code --  */}
+                    
+                    {/* <UserContext.Consumer>
+                       {(data) => (
+                        <p>{data.userLoggedIn}</p>
+                       )}
+                    </UserContext.Consumer> */}
+
+                    
                 </div>
             </div>
         )

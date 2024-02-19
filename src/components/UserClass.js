@@ -1,4 +1,5 @@
 import React from "react";
+import UserContext from "../utils/UserContext";
 
 class UserClass extends React.Component {
 
@@ -60,6 +61,17 @@ class UserClass extends React.Component {
                 <h2>{name}</h2>
                 <p>{location}</p>
 
+                <UserContext.Consumer>
+                    {(data) => (
+                        <p>Job Title - {data.designation}</p>
+                    )}
+                </UserContext.Consumer>
+
+                <UserContext.Consumer>
+                    {(data)=> (
+                        <p>UserName : {data.userLoggedIn}</p>
+                    )}
+                </UserContext.Consumer>
 
                 <button className="github-img" 
                 onClick={()=> {
@@ -68,6 +80,8 @@ class UserClass extends React.Component {
                 >
                     Github Profile
                 </button>
+
+
             </div>
         );
     }

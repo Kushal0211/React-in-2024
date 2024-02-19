@@ -18,9 +18,9 @@ const Body = () => {
     const PromotedRestuarant = withLabelRestuarants(RestuarantCard);
 
     useEffect(() => {
+        console.log("Calling fetch - useEffect from body");
         fetchData();
-        console.log("list updated");
-        console.log("list-", listOfRestuarant);
+        console.log("list updated - useEffect from body called");
     }, [])
 
     const fetchData = async () => {
@@ -80,7 +80,7 @@ const Body = () => {
                     const filteredList = listOfRestuarant.filter((res) =>
                         res?.info?.avgRating > 4.4
                     );
-                    setListOfRestuarant(filteredList);
+                    setFilteredRestuarant(filteredList);
                 }}>
                     Top Rated Restuarants
                 </button>
